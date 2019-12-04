@@ -1,0 +1,1203 @@
+{
+  "tags": {
+    "load_all": true,
+    "exclude": [
+      "created_by",
+      "source",
+      "source:datetime"
+    ]
+  },
+  "generalized_tables": {
+    "water_areas_gen1": {
+      "source": "water_areas",
+      "sql_filter": "ST_Area(geometry)>50000.000000",
+      "tolerance": 50
+    },
+    "water_areas_gen0": {
+      "source": "water_areas_gen1",
+      "sql_filter": "ST_Area(geometry)>500000.000000",
+      "tolerance": 200
+    },
+    "transport_lines_gen0": {
+      "source": "transport_lines_gen1",
+      "sql_filter": null,
+      "tolerance": 200
+    },
+    "transport_lines_gen1": {
+      "source": "transport_lines",
+      "sql_filter": "type IN ('motorway', 'motorway_link', 'trunk', 'trunk_link', 'primary', 'primary_link', 'secondary', 'secondary_link', 'tertiary', 'tertiary_link', 'rail', 'taxiway', 'runway', 'apron', 'ferry') OR class IN('railway')",
+      "tolerance": 50
+    },
+    "water_lines_gen0": {
+      "source": "water_lines_gen1",
+      "sql_filter": null,
+      "tolerance": 200
+    },
+    "water_lines_gen1": {
+      "source": "water_lines",
+      "sql_filter": null,
+      "tolerance": 50
+    },
+    "landuse_areas_gen1": {
+      "source": "landuse_areas",
+      "sql_filter": "ST_Area(geometry)>50000.000000",
+      "tolerance": 50
+    },
+    "landuse_areas_gen0": {
+      "source": "landuse_areas_gen1",
+      "sql_filter": "ST_Area(geometry)>500000.000000",
+      "tolerance": 200
+    }
+  },
+  "tables": {
+    "admin_areas": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "integer",
+          "name": "admin_level",
+          "key": "admin_level"
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        }
+      ],
+      "type": "polygon",
+      "mapping": {
+        "boundary": [
+          "administrative"
+        ]
+      }
+    },
+    "place_points": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "string",
+          "name": "name_en",
+          "key": "name:en"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "integer",
+          "name": "population",
+          "key": "population"
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        }
+      ],
+      "type": "point",
+      "mapping": {
+        "place": [
+          "__any__"
+        ]
+      }
+    },
+    "landuse_areas": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "pseudoarea",
+          "name": "area",
+          "key": null
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        },
+        {
+          "type": "mapping_key",
+          "name": "class",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "crop",
+          "key": "crop"
+        },
+        {
+          "type": "string",
+          "name": "wetland",
+          "key": "wetland"
+        }
+      ],
+      "type": "polygon",
+      "mappings": {
+        "landuse": {
+          "mapping": {
+            "landuse": [
+              "__any__"
+            ]
+          }
+        },
+        "leisure": {
+          "mapping": {
+            "leisure": [
+              "__any__"
+            ]
+          }
+        },
+        "natural": {
+          "mapping": {
+            "natural": [
+              "__any__"
+            ]
+          }
+        }
+      }
+    },
+    "water_areas": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "pseudoarea",
+          "name": "area",
+          "key": null
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        }
+      ],
+      "type": "polygon",
+      "mapping": {
+        "waterway": [
+          "__any__"
+        ],
+        "landuse": [
+          "basin",
+          "reservoir"
+        ],
+        "natural": [
+          "water"
+        ]
+      }
+    },
+    "water_lines": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "tunnel",
+          "key": "tunnel"
+        },
+        {
+          "type": "integer",
+          "name": "width",
+          "key": "width"
+        },
+        {
+          "type": "boolint",
+          "name": "intermittent",
+          "key": "intermittent"
+        },
+        {
+          "type": "string",
+          "name": "waterway",
+          "key": "waterway"
+        },
+        {
+          "type": "string",
+          "name": "bridge",
+          "key": "bridge"
+        },
+        {
+          "type": "string",
+          "name": "canal",
+          "key": "canal"
+        },
+		{
+          "type": "string",
+          "name": "height",
+          "key": "height"
+        }
+      ],
+      "type": "linestring",
+      "mapping": {
+        "waterway": [
+          "__any__"
+        ],
+        "barrier": [
+          "ditch"
+        ]
+      }
+    },
+    "transport_points": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "ref",
+          "key": "ref"
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        },
+        {
+          "type": "mapping_key",
+          "name": "class",
+          "key": null
+        },
+		{
+          "type": "integer",
+          "name": "ele",
+          "key": "ele"
+        },
+        {
+          "type": "string",
+          "name": "route",
+          "key": "route"
+        },
+		{
+          "type": "string",
+          "name": "height",
+          "key": "height"
+        }
+      ],
+      "type": "point",
+      "mappings": {
+        "railway": {
+          "mapping": {
+            "railway": [
+              "__any__"
+            ]
+          }
+        },
+        "highway": {
+          "mapping": {
+            "highway": [
+              "__any__"
+            ]
+          }
+        },
+        "aeroway": {
+          "mapping": {
+            "aeroway": [
+              "__any__"
+            ]
+          }
+        },
+        "mountain_pass": {
+          "mapping": {
+            "mountain_pass": [
+              "__any__"
+            ]
+          }
+        },
+		"ford": {
+          "mapping": {
+            "ford": [
+              "__any__"
+            ]
+          }
+        },
+        "airmark": {
+          "mapping": {
+            "airmark": [
+              "__any__"
+            ]
+          }
+        },
+		"aerialway": {
+          "mapping": {
+            "aerialway": [
+              "__any__"
+            ]
+          }
+        },
+        "route": {
+          "mapping": {
+            "route": [
+              "__any__"
+            ]
+          }
+        }
+      }
+    },
+    "transport_lines": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "boolint",
+          "name": "tunnel",
+          "key": "tunnel"
+        },
+        {
+          "type": "boolint",
+          "name": "bridge",
+          "key": "bridge"
+        },
+        {
+          "type": "direction",
+          "name": "oneway",
+          "key": "oneway"
+        },
+        {
+          "type": "string",
+          "name": "ref",
+          "key": "ref"
+        },
+        {
+          "type": "wayzorder",
+          "name": "z_order",
+          "key": "layer"
+        },
+        {
+          "type": "string",
+          "name": "access",
+          "key": "access"
+        },
+        {
+          "type": "string",
+          "name": "service",
+          "key": "service"
+        },
+        {
+          "type": "mapping_key",
+          "name": "class",
+          "key": null
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        },
+        {
+          "type": "integer",
+          "name": "lanes",
+          "key": "lanes"
+        },
+        {
+          "type": "string",
+          "name": "condition",
+          "key": "condition"
+        },
+        {
+          "type": "boolint",
+          "name": "divided",
+          "key": "is_divided"
+        },
+        {
+          "type": "string",
+          "name": "surface",
+          "key": "surface"
+        },
+        {
+          "type": "boolint",
+          "name": "seasonal",
+          "key": "seasonal"
+        },
+        {
+          "type": "boolint",
+          "name": "electrified",
+          "key": "electrified"
+        },
+        {
+          "type": "boolint",
+          "name": "ford",
+          "key": "ford"
+        },
+        {
+          "type": "integer",
+          "name": "gauge",
+          "key": "gauge"
+        },
+        {
+          "type": "string",
+          "name": "route",
+          "key": "route"
+        },
+        {
+          "type": "string",
+          "name": "ferry",
+          "key": "ferry"
+        },
+		{
+          "type": "string",
+          "name": "height",
+          "key": "height"
+        }
+      ],
+      "type": "linestring",
+      "filters": {
+        "exclude_tags": [
+          [
+            "area",
+            "yes"
+          ]
+        ]
+      },
+      "mappings": {
+        "railway": {
+          "mapping": {
+            "railway": [
+              "__any__"
+            ]
+          }
+        },
+        "highway": {
+          "mapping": {
+            "highway": [
+              "__any__"
+            ]
+          }
+        },
+        "aeroway": {
+          "mapping": {
+            "aeroway": [
+              "__any__"
+            ]
+          }
+        },
+        "aerialway": {
+          "mapping": {
+            "aerialway": [
+              "__any__"
+            ]
+          }
+        },
+        "route": {
+          "mapping": {
+            "route": [
+              "__any__"
+            ]
+          }
+        }
+      }
+    },
+    "transport_areas": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        },
+        {
+          "type": "mapping_key",
+          "name": "class",
+          "key": null
+        }
+      ],
+      "type": "polygon",
+      "mappings": {
+        "rail": {
+          "mapping": {
+            "railway": [
+              "__any__"
+            ]
+          }
+        },
+        "highway": {
+          "mapping": {
+            "highway": [
+              "__any__"
+            ]
+          }
+        },
+        "aeroway": {
+          "mapping": {
+            "aeroway": [
+              "__any__"
+            ]
+          }
+        }
+      }
+    },
+    "amenity_points": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "religion",
+          "key": "religion"
+        },
+        {
+          "type": "string",
+          "name": "tourism",
+          "key": "tourism"
+        },
+		{
+          "type": "string",
+          "name": "height",
+          "key": "height"
+        }
+      ],
+      "type": "point",
+      "mapping": {
+        "amenity": [
+          "__any__"
+        ]
+      }
+    },
+    "amenity_areas": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "religion",
+          "key": "religion"
+        },
+        {
+          "type": "string",
+          "name": "tourism",
+          "key": "tourism"
+        },
+		{
+          "type": "string",
+          "name": "height",
+          "key": "height"
+        }
+      ],
+      "type": "polygon",
+      "mapping": {
+        "amenity": [
+          "__any__"
+        ]
+      }
+    },
+    "other_points": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        },
+        {
+          "type": "mapping_key",
+          "name": "class",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "tower",
+          "key": "tower"
+        },
+        {
+          "type": "string",
+          "name": "content",
+          "key": "content"
+        },
+        {
+          "type": "string",
+          "name": "site_type",
+          "key": "site_type"
+        },
+        {
+          "type": "string",
+          "name": "boundary",
+          "key": "boundary"
+        },
+        {
+          "type": "integer",
+          "name": "ele",
+          "key": "ele"
+        },
+		{
+          "type": "string",
+          "name": "height",
+          "key": "height"
+        }
+      ],
+      "type": "point",
+      "mappings": {
+        "barrier": {
+          "mapping": {
+            "barrier": [
+              "__any__"
+            ]
+          }
+        },
+        "historic": {
+          "mapping": {
+            "historic": [
+              "__any__"
+            ]
+          }
+        },
+        "man_made": {
+          "mapping": {
+            "man_made": [
+              "__any__"
+            ]
+          }
+        },
+        "power": {
+          "mapping": {
+            "power": [
+              "__any__"
+            ]
+          }
+        },
+        "military": {
+          "mapping": {
+            "military": [
+              "__any__"
+            ]
+          }
+        },
+        "natural": {
+          "mapping": {
+            "natural": [
+              "__any__"
+            ]
+          }
+        },
+        "tourism": {
+          "mapping": {
+            "tourism": [
+              "__any__"
+            ]
+          }
+        },
+        "waterway": {
+          "mapping": {
+            "waterway": [
+              "__any__"
+            ]
+          }
+        },
+		"seamark": {
+          "mapping": {
+            "seamark": [
+              "__any__"
+            ]
+          }
+        },
+		"landmark": {
+          "mapping": {
+            "landmark": [
+              "__any__"
+            ]
+          }
+        }
+      }
+    },
+    "other_lines": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        },
+        {
+          "type": "mapping_key",
+          "name": "class",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "location",
+          "key": "location"
+        },
+        {
+          "type": "string",
+          "name": "substance",
+          "key": "substance"
+        },
+        {
+          "type": "string",
+          "name": "site_type",
+          "key": "site_type"
+        },
+        {
+          "type": "string",
+          "name": "cutline",
+          "key": "cutline"
+        },
+		{
+          "type": "string",
+          "name": "height",
+          "key": "height"
+        }
+      ],
+      "type": "linestring",
+      "mappings": {
+        "barrier": {
+          "mapping": {
+            "barrier": [
+              "__any__"
+            ]
+          }
+        },
+        "historic": {
+          "mapping": {
+            "historic": [
+              "__any__"
+            ]
+          }
+        },
+        "man_made": {
+          "mapping": {
+            "man_made": [
+              "__any__"
+            ]
+          }
+        },
+        "power": {
+          "mapping": {
+            "power": [
+              "__any__"
+            ]
+          }
+        },
+        "military": {
+          "mapping": {
+            "military": [
+              "__any__"
+            ]
+          }
+        },
+        "communication": {
+          "mapping": {
+            "communication": [
+              "__any__"
+            ]
+          }
+        },
+        "natural": {
+          "mapping": {
+            "natural": [
+              "__any__"
+            ]
+          }
+        },
+        "geological": {
+          "mapping": {
+            "geological": [
+              "__any__"
+            ]
+          }
+        }
+      }
+    },
+    "other_areas": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "pseudoarea",
+          "name": "area",
+          "key": null
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        },
+        {
+          "type": "mapping_key",
+          "name": "class",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "tower",
+          "key": "tower"
+        },
+        {
+          "type": "string",
+          "name": "content",
+          "key": "content"
+        },
+        {
+          "type": "string",
+          "name": "site_type",
+          "key": "site_type"
+        },
+		{
+          "type": "string",
+          "name": "height",
+          "key": "height"
+        }
+      ],
+      "type": "polygon",
+      "mappings": {
+        "barrier": {
+          "mapping": {
+            "barrier": [
+              "__any__"
+            ]
+          }
+        },
+        "historic": {
+          "mapping": {
+            "historic": [
+              "__any__"
+            ]
+          }
+        },
+        "man_made": {
+          "mapping": {
+            "man_made": [
+              "__any__"
+            ]
+          }
+        },
+        "power": {
+          "mapping": {
+            "power": [
+              "__any__"
+            ]
+          }
+        },
+        "military": {
+          "mapping": {
+            "military": [
+              "__any__"
+            ]
+          }
+        },
+        "geological": {
+          "mapping": {
+            "geological": [
+              "__any__"
+            ]
+          }
+        },
+        "tourism": {
+          "mapping": {
+            "tourism": [
+              "__any__"
+            ]
+          }
+        },
+		"seamark": {
+          "mapping": {
+            "seamark": [
+              "__any__"
+            ]
+          }
+        },
+		"landmark": {
+          "mapping": {
+            "landmark": [
+              "__any__"
+            ]
+          }
+        }
+      }
+    },
+    "buildings": {
+      "fields": [
+        {
+          "type": "id",
+          "name": "osm_id",
+          "key": null
+        },
+        {
+          "type": "geometry",
+          "name": "geometry",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "key": "name"
+        },
+        {
+          "type": "mapping_value",
+          "name": "type",
+          "key": null
+        },
+        {
+          "type": "string",
+          "name": "height",
+          "key": "height"
+        },
+        {
+          "type": "hstore_tags",
+          "name": "tags",
+          "key": null
+        },
+        {
+          "type": "pseudoarea",
+          "name": "area",
+          "key": "null"
+        },
+        {
+          "type": "string",
+          "name": "tourism",
+          "key": "tourism"
+        }
+      ],
+      "type": "polygon",
+      "mapping": {
+        "building": [
+          "__any__"
+        ]
+      }
+    }
+  }
+}
