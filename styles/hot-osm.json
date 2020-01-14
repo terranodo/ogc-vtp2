@@ -3811,7 +3811,7 @@
   "sources": {
     "osm": {
       "type": "vector",
-      "url": "http://ogc-vtp.gospatial.org/capabilities/osm.json"
+      "url": "http://ogc-vtp.gospatial.org/capabilities/WebMercatorQuad.json"
     }
   },
   "id": "2809a5c6-5ed6-4cce-b269-0ae6d3d8e012"

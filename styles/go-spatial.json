@@ -1489,7 +1489,7 @@
   "sources": {
     "osm": {
       "type": "vector",
-      "url": "http://ogc-vtp.gospatial.org/capabilities/osm.json"
+      "url": "http://ogc-vtp.gospatial.org/capabilities/WebMercatorQuad.json"
     }
   },
   "id": "a1b013ac-e251-4470-a927-f826fd7c113a"
